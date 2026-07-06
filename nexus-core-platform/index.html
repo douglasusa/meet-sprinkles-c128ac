@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEXUS CORE™ | Enterprise Operational Control Layer</title>
+  <meta name="description" content="NEXUS CORE™ is an enterprise operational control layer for mission-critical environments where every movement, handoff, exception, and risk must be visible, traceable, and controlled before risk becomes reality.">
+  <meta name="keywords" content="enterprise operational control layer, mission-critical traceability, item-level traceability, operational visibility, chain of custody, supply chain risk, provenance tracking, critical asset tracking, NEXUS CORE, Dynamic Kinesis, DOUGLAS USA LLC">
+  <meta property="og:title" content="NEXUS CORE™ | No Enterprise Should Operate Blind">
+  <meta property="og:description" content="See every move. Trace every change. Control every risk.">
+  <meta property="og:type" content="website">
+  <style>
+    :root {
+      --ink: #111827;
+      --navy: #14213d;
+      --slate: #4b5563;
+      --muted: #6b7280;
+      --light: #f7f8fa;
+      --white: #ffffff;
+      --line: #d9dee7;
+      --accent: #0f766e;
+      --accent-dark: #115e59;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      color: var(--ink);
+      background: var(--white);
+      line-height: 1.55;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      background: var(--white);
+    }
+
+    .nav {
+      width: min(1080px, 92vw);
+      margin: 0 auto;
+      padding: 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--navy);
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand span {
+      color: var(--navy);
+    }
+
+    .nav-note {
+      color: var(--muted);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      text-align: right;
+    }
+
+    .hero {
+      width: min(1080px, 92vw);
+      margin: 0 auto;
+      padding: 76px 0 64px;
+      display: block;
+    }
+
+    .eyebrow {
+      color: var(--accent-dark);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      max-width: 760px;
+      color: var(--navy);
+      font-size: clamp(38px, 5vw, 64px);
+      font-weight: 500;
+      line-height: 1.02;
+      letter-spacing: -0.035em;
+      margin-bottom: 24px;
+    }
+
+    .hero-copy {
+      max-width: 760px;
+      color: var(--slate);
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
+      border-radius: 3px;
+      background: var(--navy);
+      color: var(--white);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .button.secondary {
+      background: var(--white);
+      color: var(--navy);
+      border: 1px solid var(--line);
+    }
+
+    .control-card {
+      display: none;
+    }
+
+    .signal,
+    .card-title,
+    .card-text {
+      display: none;
+    }
+
+    .section {
+      width: min(1080px, 92vw);
+      margin: 0 auto;
+      padding: 54px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .section h2 {
+      max-width: 820px;
+      color: var(--navy);
+      font-size: clamp(28px, 3.4vw, 44px);
+      font-weight: 500;
+      line-height: 1.12;
+      letter-spacing: -0.025em;
+      margin-bottom: 18px;
+    }
+
+    .section p {
+      max-width: 860px;
+      color: var(--slate);
+      font-size: 17px;
+    }
+
+    .grid {
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .tile {
+      min-height: 132px;
+      padding: 18px;
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .tile strong {
+      display: block;
+      color: var(--navy);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .tile span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .proof-sequence {
+      background: var(--light);
+      width: 100%;
+      max-width: none;
+      padding: 54px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .proof-inner {
+      width: min(1080px, 92vw);
+      margin: 0 auto;
+    }
+
+    .proof-inner h2 {
+      max-width: 760px;
+      color: var(--navy);
+      font-size: clamp(26px, 3vw, 38px);
+      font-weight: 500;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      margin-bottom: 14px;
+    }
+
+    .proof-inner p {
+      max-width: 860px;
+      color: var(--slate);
+      font-size: 16px;
+    }
+
+    .visual-grid {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .visual-card {
+      border: 1px solid var(--line);
+      background: var(--white);
+    }
+
+    .visual-image {
+      height: 220px; /* Change this number to resize all three images */
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      background: #eef1f5;
+      color: var(--navy);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .visual-image img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover; /* Use cover to fill the box; use contain to show the whole image */
+      object-position: center;
+      filter: grayscale(100%);
+    }
+
+    .visual-placeholder {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .visual-card.driving .visual-image {
+      background: linear-gradient(180deg, rgba(20,33,61,0.06), rgba(20,33,61,0.12)), #eef1f5;
+    }
+
+    .visual-card.navigation .visual-image {
+      background: linear-gradient(180deg, rgba(15,118,110,0.08), rgba(20,33,61,0.10)), #eef1f5;
+    }
+
+    .visual-card.awareness .visual-image {
+      background: linear-gradient(180deg, rgba(201,162,39,0.10), rgba(20,33,61,0.09)), #eef1f5;
+    }
+
+    .visual-caption {
+      padding: 18px;
+      min-height: 136px;
+    }
+
+    .visual-caption strong {
+      display: block;
+      color: var(--navy);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      line-height: 1.35;
+      margin-bottom: 9px;
+    }
+
+    .visual-caption span {
+      display: block;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .bridge-statement {
+      margin-top: 24px;
+      padding: 20px 22px;
+      border-left: 4px solid var(--navy);
+      background: var(--white);
+      color: var(--navy);
+      font-size: 21px;
+      line-height: 1.35;
+    }
+
+    .muted {
+      color: var(--slate);
+    }
+
+    .footer {
+      width: min(1080px, 92vw);
+      margin: 0 auto;
+      padding: 30px 0 44px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        padding-top: 52px;
+      }
+
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .visual-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .visual-image {
+        height: 210px;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-note {
+        text-align: left;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <nav class="nav" aria-label="Primary navigation">
+      <div class="brand">NEXUS <span>CORE™</span></div>
+      <div class="nav-note">Dynamic Kinesis, a DOUGLAS USA LLC company</div>
+    </nav>
+
+    <header class="hero">
+      <section>
+        <div class="eyebrow">Enterprise Operational Control Layer</div>
+        <h1>No Enterprise Should Operate Blind.</h1>
+        <p class="hero-copy">NEXUS CORE™ gives mission-critical organizations the awareness to see every move, trace every change, and control every risk before risk becomes reality.</p>
+        <div class="cta-row">
+          <a class="button" href="mailto:info@dynamickinesis.com?subject=NEXUS%20CORE%20Critical%20Visibility%20Review">Request a Critical Visibility Review</a>
+          <a class="button secondary" href="#control-layer">Understand the Control Layer</a>
+        </div>
+      </section>
+    </header>
+
+    <section class="proof-sequence" aria-label="Critical awareness proof sequence">
+      <div class="proof-inner">
+        <div class="eyebrow">Critical Awareness Standard</div>
+        <h2>Critical operations require critical awareness.</h2>
+        <p>Before an enterprise can control risk, it must see what is happening. NEXUS CORE™ brings the discipline of visibility, navigation, and awareness to complex operational environments where movement, custody, exception, and risk must be proven.</p>
+
+        <div class="visual-grid">
+          <article class="visual-card driving">
+            <div class="visual-image">
+              <img src="assets/images/driving-awareness.jpg" alt="Driver visibility metaphor for enterprise operational control">
+              <!-- To use your own image, replace the src filename above. Resize all three image boxes by changing .visual-image height in the CSS. -->
+            </div>
+            <div class="visual-caption">
+              <strong>No one drives with eyes closed.</strong>
+              <span>Visibility is the first condition of control.</span>
+            </div>
+          </article>
+
+          <article class="visual-card navigation">
+            <div class="visual-image">
+              <img src="assets/images/verified-navigation.jpg" alt="Aircraft navigation metaphor for verified enterprise movement">
+              <!-- To use your own image, replace the src filename above. -->
+            </div>
+            <div class="visual-caption">
+              <strong>No one pilots without verified navigation.</strong>
+              <span>Mission-critical movement requires trusted guidance, not assumption.</span>
+            </div>
+          </article>
+
+          <article class="visual-card awareness">
+            <div class="visual-image">
+              <img src="assets/images/critical-awareness.jpg" alt="Operating room awareness metaphor for mission-critical enterprise operations">
+              <!-- To use your own image, replace the src filename above. -->
+            </div>
+            <div class="visual-caption">
+              <strong>No one operates without critical awareness.</strong>
+              <span>When the stakes are high, every movement, exception, and handoff matters.</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="bridge-statement">NEXUS CORE™ brings that same standard of awareness to enterprise operations.</div>
+      </div>
+    </section>
+
+    <section id="control-layer" class="section">
+      <h2>Take Control BEFORE Risk Becomes REALITY.</h2>
+      <p>Critical enterprises move sensitive assets, regulated items, high-value components, customer-owned goods, and time-sensitive products through fragmented systems, partners, locations, and handoffs. When visibility is missing, risk becomes delay, loss, dispute, recall exposure, customer distrust, compliance pressure, reputational damage, or operational failure.</p>
+    </section>
+
+    <section class="section">
+      <h2>Built for what cannot be replaced, mistaken, delayed, or questioned.</h2>
+      <p>NEXUS CORE™ is not ordinary fulfillment software. It is an enterprise control layer designed to centralize awareness across decentralized operations and create operational truth before risk, scrutiny, transaction pressure, or valuation uncertainty arrives.</p>
+      <div class="grid">
+        <div class="tile"><strong>Critical Movement</strong><span>Know where essential assets are, where they came from, and where they are going.</span></div>
+        <div class="tile"><strong>Custody Control</strong><span>Trace who touched what, when, where, and under what condition.</span></div>
+        <div class="tile"><strong>Exception Awareness</strong><span>Detect delays, mismatches, missing movement, abnormal events, and emerging risk.</span></div>
+        <div class="tile"><strong>Operational Continuity</strong><span>Maintain control across disruption, fragmentation, and attempted interference.</span></div>
+        <div class="tile"><strong>Compliance Evidence</strong><span>Support audit-ready visibility into movement, status, custody, and change history.</span></div>
+        <div class="tile"><strong>Recall Readiness</strong><span>Isolate exact items, affected movement, exposed parties, and required actions.</span></div>
+        <div class="tile"><strong>Customer Confidence</strong><span>Provide clear answers about status, integrity, location, movement, and exceptions.</span></div>
+        <div class="tile"><strong>Executive Control</strong><span>Give leaders verified awareness before hidden risk becomes business exposure.</span></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>See every move. Trace every change. Control every risk.</h2>
+      <p>Developed and commercialized by Dynamic Kinesis, a DOUGLAS USA LLC company, NEXUS CORE™ is built on the discipline of Achieve CLARITY Before the Close™: operational truth before risk becomes reality.</p>
+      <div class="cta-row" style="margin-top: 30px;">
+        <a class="button" href="mailto:info@dynamickinesis.com?subject=NEXUS%20CORE%20Critical%20Visibility%20Review">Request a Critical Visibility Review</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>© 2026 DOUGLAS USA LLC / Dynamic Kinesis. All rights reserved.</div>
+      <div>NEXUS CORE™ | Enterprise Operational Control Layer</div>
+    </footer>
+  </div>
+</body>
+</html>
